@@ -1,1 +1,58 @@
-<p>recipe-edit works!</p>
+<form class="panel panel-default" [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+    <div class="panel-heading clearfix">
+        <h3>{{ editMode ? "Edit" : "Add" }} Recipe</h3>
+        <div class="pull-right">
+            <button class="btn btn-success" type="submit" [disabled]="!recipeForm.valid">{{ editMode ? "Save" : "Add" }}</button>
+            <button class="btn btn-danger" type="button" (click)="onCancel()">Cancel</button>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input class="form-control"
+                   type="text"
+                   id="name"
+                   formControlName="name">
+        </div>
+        <div class="form-group">
+            <label for="imagePath">Image URL</label>
+            <input class="form-control"
+                   type="text"
+                   id="imagePath"
+                   formControlName="imagePath"
+                   #imagePath>
+        </div>
+        <img *ngIf="imagePath.value.length > 0" [src]="imagePath.value" class="img-responsive" style="max-width: 100%; width: 300px; height: 300px; object-fit: cover; object-position: center; margin-bottom: 10px;">
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control"
+                      id="description"
+                      formControlName="description"
+                      rows="4"></textarea>
+        </div>
+        <div class="row" formArrayName="ingredients">
+            <div class="form-group clearfix"
+                 *ngFor="let ingredientCtrl of controls; let i = index"
+                 [formGroupName]="i"
+                 style="margin: 10px;">
+                <div class="col-xs-8" style="padding: 0 5px;">
+                    <input type="text"
+                           formControlName="name"
+                           class="form-control">
+                </div>
+                <div class="col-xs-2" style="padding: 0 5px;">
+                    <input type="text"
+                           formControlName="amount"
+                           class="form-control">
+                </div>
+                <div class="col-xs-2 btn-group" style="padding: 0 5px;">
+                    <button class="btn btn-danger" type="button" (click)="onDeleteIngredient(i)">X</button>
+                </div>
+            </div>
+            <button class="btn btn-success"
+                    type="button"
+                    (click)="onAddIngredient()"
+                    style="margin: 5px 20px 0;">Add Ingredient</button>
+        </div>
+    </div>
+</form>
