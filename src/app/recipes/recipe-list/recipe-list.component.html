@@ -10,5 +10,6 @@
             *ngFor="let recipeEl of recipes; let i = index"
             [recipe]="recipeEl"
             [index]="i"></app-recipe-item>
+        <h5 *ngIf="recipes.length < 1">No recipes found, please fetch recipes from the database</h5>
     </div>
 </div>

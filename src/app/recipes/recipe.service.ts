@@ -11,7 +11,7 @@ import { Recipe } from "./recipe.model";
 export class RecipeService {
     recipesChanged = new Subject<Recipe[]>();
 
-    private recipes: Recipe[] = [
+    /* private recipes: Recipe[] = [
         new Recipe(
             'Fruit Smoothy',
             'A delicious smoothy',
@@ -35,7 +35,8 @@ export class RecipeService {
                 new Ingredient('Red cabbage', 1),
                 new Ingredient('Cucumbers', 1)
             ])
-    ];
+    ]; */
+    private recipes: Recipe[] = [];
 
     constructor(private slService: ShoppingListService) { }
 
@@ -45,6 +46,11 @@ export class RecipeService {
 
     getRecipe(id: number) {
         return this.recipes[id];
+    }
+
+    setRecipes(recipes: Recipe[]) {
+        this.recipes = recipes;
+        this.recipesChanged.next(this.recipes.slice());
     }
 
     addIngredientsToList(ingredients: Ingredient[]) {
